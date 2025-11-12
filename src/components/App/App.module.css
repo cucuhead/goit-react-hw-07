@@ -1,0 +1,45 @@
+/* src/components/App/App.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* 1. Kapsayıcı: İLETİŞİM FORMU (Ortalamayı sağlar) */
+.sectionForm {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+
+  /* KRİTİK FLEX KODU */
+  display: flex;
+  justify-content: center;
+}
+
+/* 2. Kapsayıcı: İLETİŞİM LİSTESİ */
+.sectionContacts {
+  /* Bu stilin doğru olduğunu ve beyazlığı geri getirdiğini onaylayın */
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  color: #2c3e50;
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  color: #2c3e50;
+  font-size: 24px;
+  margin-bottom: 15px;
+}

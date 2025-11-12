@@ -1,0 +1,41 @@
+/* src/components/ContactList/ContactList.module.css */
+
+.container {
+  /* Listeyi kapsayan ana div */
+  padding-top: 10px;
+  background-color: #fff;
+}
+
+.list {
+  /* Ana <ul> etiketi için (Grid düzeni burada başlıyor) */
+  list-style: none; /* Varsayılan madde işaretlerini kaldır */
+  padding: 10px;
+  margin: 10px;
+
+  /* GRID AYARLARI */
+  display: grid;
+  /* 200px'ten küçük olmasın, sığabildiği kadar sütuna sığsın */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px; /* Sütunlar ve satırlar arasına boşluk */
+}
+
+.listItem {
+  /* Her bir iletişim kartı için */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hafif gölge ekle */
+  /* Grid elemanı olduğu için genişliği %100 değil, grid ayarlıyor. */
+}
+
+.message {
+  /* Liste boşken veya filtreleme sonucunda mesaj göstermek için */
+  font-size: 16px;
+  color: #777;
+  padding: 10px;
+  text-align: center;
+}

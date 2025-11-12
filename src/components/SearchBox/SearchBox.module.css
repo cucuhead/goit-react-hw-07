@@ -1,0 +1,32 @@
+/* src/components/SearchBox/SearchBox.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  color: #34495e;
+}
+
+.input {
+  /* Stilini Form inputuna benzer yapıyoruz */
+  padding: 10px 15px;
+  border: 1px solid #bdc3c7;
+  border-radius: 6px;
+  width: 50%;
+  box-sizing: border-box;
+  font-size: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
