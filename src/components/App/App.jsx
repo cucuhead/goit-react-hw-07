@@ -1,58 +1,90 @@
-// src/components/App/App.jsx
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Routes, Route } from "react-router-dom";
 
-import React, { useEffect } from "react"; // ⬅️ useEffect import edildi
-import { useDispatch, useSelector } from "react-redux"; // ⬅️ useDispatch import edildi
-import { fetchContacts } from "../../redux/contactsOps"; // ⬅️ Thunk import edildi
-import { selectLoading, selectError } from "../../redux/contactsSlice"; // ⬅️ loading/error seçicileri import edildi
+// Sayfalar (Gereksinimler için importlar)
+import HomePage from "../../components/Pages/Home/HomePage";
+import RegisterPage from "../../components/Pages/Register/RegisterPage";
+import LoginPage from "../../components/Pages/Login/LoginPage";
+import ContactsPage from "../../components/Pages/Contacts/ContactsPage";
 
-import ContactForm from "../ContactForm/ContactForm";
-import SearchBox from "../SearchBox/SearchBox";
-import ContactList from "../ContactList/ContactList";
-import css from "./App.module.css";
+// Bileşenler
+import { Layout } from "../Layout/Layout";
+import { PrivateRoute } from "../PrivateRoute/PrivateRoute";
+import { RestrictedRoute } from "../RestrictedRoute/RestrictedRoute";
 
-const App = () => {
-  const dispatch = useDispatch(); // ⬅️ useDispatch hook'u kullanıldı
-  const isLoading = useSelector(selectLoading); // Loading durumunu izle
-  const isError = useSelector(selectError); // Hata durumunu izle
+// Redux Operasyonları ve Seçicileri
+import { refreshUser } from "../../redux/auth/operations";
 
-  // ⬅️ ÖNEMLİ DEĞİŞİKLİK: Uygulama yüklendiğinde fetchContacts işlemini başlat
+import { selectIsRefreshing } from "../../redux/auth/selectors";
+
+// Geçici Yükleme Bileşeni (Placeholder)
+const Loader = () => <div>Kullanıcı bilgileri yükleniyor...</div>;
+
+export const App = () => {
+  // useDispatch() metodu kullanılır.
+  const dispatch = useDispatch();
+
+  // useSelector() metodu kullanılarak isRefreshing değeri alınır.
+  const isRefreshing = useSelector(selectIsRefreshing);
+
+  // useEffect içinde refreshUser işlemiyle dispatch çağrılır.
+  // Bağımlılık dizisinde dispatch kullanılır.
   useEffect(() => {
-    // Boş bağımlılık dizisi `[]` ile bileşen sadece ilk yüklendiğinde çalışır.
-    // React kuralı gereği dispatch fonksiyonunu bağımlılık dizisine ekliyoruz.
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
+  // isRefreshing true ise bir placeholder görüntülenir.
+  if (isRefreshing) {
+    return <Loader />;
+  }
+
+  // isRefreshing false ise Layout bileşeni render edilir.
   return (
-    <div className={css.container}>
-      <h1 className={css.title}>Phonebook</h1>
+    <Layout>
+      <Routes>
+        {/* / - Ana sayfa rotası, Home bileşenini render eder. */}
+        <Route path="/" element={<HomePage />} />
 
-      {/* İletişim Formu Bölümü */}
-      <div className={css.sectionForm}>
-        <ContactForm />
-      </div>
+        {/* /register - RestrictedRoute bileşeni. */}
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute
+              redirectTo="/contacts"
+              component={<RegisterPage />} // Registration.jsx'in RegistrationPage olarak import edildiği varsayılır.
+            />
+          }
+        />
 
-      {/* İletişim Listesi Bölümü */}
-      <div className={css.sectionContact}>
-        <h2 className={css.subtitle}>Contacts</h2>
+        {/* /login - RestrictedRoute bileşeni. */}
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute
+              redirectTo="/contacts"
+              component={<LoginPage />} // Login.jsx'in LoginPage olarak import edildiği varsayılır.
+            />
+          }
+        />
 
-        {/* Loading ve Error göstergeleri buraya eklenebilir */}
-        {isLoading && <p>Kişi bilgileri sunucudan yükleniyor...</p>}
-        {isError && (
-          <p style={{ color: "red" }}>
-            Kişiler yüklenirken bir hata oluştu: {isError}
-          </p>
-        )}
+        {/* /contacts - PrivateRoute bileşeni. */}
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute
+              redirectTo="/login"
+              component={<ContactsPage />} // Contacts.jsx'in ContactsPage olarak import edildiği varsayılır.
+            />
+          }
+        />
 
-        {/* Yükleme veya hata yoksa diğer bileşenleri göster */}
-        {!isLoading && !isError && (
-          <>
-            <SearchBox />
-            <ContactList />
-          </>
-        )}
-      </div>
-    </div>
+        {/* Tanımsız rotalar için Ana Sayfaya yönlendirme veya 404 eklenebilir. */}
+        <Route path="*" element={<HomePage />} />
+      </Routes>
+    </Layout>
   );
 };
 
+// Default export tercih edilmelidir.
 export default App;

@@ -1,22 +1,45 @@
-// src/redux/store.js
-
 import { configureStore } from "@reduxjs/toolkit";
-// Redux Persist ile ilgili tüm importlar (persistStore, persistReducer, FLUSH, vb.) kaldırıldı.
-// import storage from "redux-persist/lib/storage"; // Artık gerek yok
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-// Reducer'ları import etme (Persist uygulanmamış hali)
-import { contactsReducer } from "./contactsSlice";
-import { filtersReducer } from "./filtersSlice";
+// Reducers
+import { authReducer } from "./auth/slice";
+import { contactsReducer } from "./contacts/slice"; // Eski contactsSlice.js'ten taşıdığınızı varsayıyorum
+import { filtersReducer } from "./filters/slice"; // Eski filtersSlice.js'ten taşıdığınızı varsayıyorum
 
-// Store'u oluşturma (Redux Persist olmaksızın)
+// Auth için persist yapılandırması (yalnızca token'ı sakla)
+// Zorunlu olarak bu 3 alan mevcut olmalı: key, storage, whitelist
+const authPersistConfig = {
+  key: "auth",
+  storage,
+  whitelist: ["token"],
+};
+
+// store oluşturma
 export const store = configureStore({
   reducer: {
-    // Reducer'ları birleştirme
-    contacts: contactsReducer, // Doğrudan contactsReducer kullanılıyor
+    // persistReducer() fonksiyonu iki argümanla çağrılır ve auth alanına atanır
+    auth: persistReducer(authPersistConfig, authReducer),
+    contacts: contactsReducer,
     filters: filtersReducer,
   },
-  // Redux Persist ile ilgili middleware ayarı kaldırıldı.
+  // Redux-Persist'in action tiplerini ignore etmek için middleware eklendi
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
-// Artık persistor'u dışa aktarmaya gerek yok
-// export const persistor = persistStore(store);
+// persistStore(store) metodu çağrılır ve export let persistor şeklinde dışa aktarılır
+export const persistor = persistStore(store);

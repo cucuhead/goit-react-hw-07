@@ -1,19 +1,20 @@
 // src/components/SearchBox/SearchBox.jsx
 
 import { useSelector, useDispatch } from "react-redux";
-import { selectNameFilter, changeFilter } from "../../redux/filtersSlice"; // Filtre Redux Mantığı
-import css from "./SearchBox.module.css"; // Stil dosyanızı import edin
+// 1. changeFilter, Slice dosyasından gelir
+import { changeFilter } from "../../redux/filters/slice";
+// 2. selectFilter, Selectors dosyasından gelir
+import { selectFilter } from "../../redux/filters/selectors";
+import css from "./SearchBox.module.css";
 
-// Bileşen artık prop almaz (Redux gereksinimi)
 const SearchBox = () => {
-  // 1. Redux Store'dan mevcut filtre değerini çekiyoruz
-  const filter = useSelector(selectNameFilter);
+  // Redux Store'dan mevcut filtre değerini al (Selectors dosyasından)
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
-  // 2. Input değiştiğinde çalışan fonksiyon
-  const handleChange = (event) => {
-    // changeFilter Action Creator'ını çağırıp, yeni değeri payload olarak gönderiyoruz.
-    dispatch(changeFilter(event.target.value));
+  const handleChange = (e) => {
+    // changeFilter action'ı çağrılıyor
+    dispatch(changeFilter(e.target.value));
   };
 
   return (
@@ -22,14 +23,11 @@ const SearchBox = () => {
       <input
         type="text"
         className={css.input}
-        // value prop'u artık Redux Store'dan geliyor
-        value={filter}
-        // onChange artık Redux'a Action gönderiyor
+        value={filter} // Değer, Redux Store'dan geliyor
         onChange={handleChange}
       />
     </div>
   );
 };
 
-// Ödev gereksinimi: Varsayılan dışa aktarma (export default)
 export default SearchBox;

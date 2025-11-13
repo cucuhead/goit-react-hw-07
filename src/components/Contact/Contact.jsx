@@ -2,7 +2,7 @@
 
 import { useDispatch } from "react-redux";
 // ⬅️ ÖNEMLİ DEĞİŞİKLİK: contactsSlice yerine contactsOps'tan import ediyoruz
-import { deleteContact } from "../../redux/contactsOps";
+import { deleteContact } from "../../redux/contacts/operations";
 import css from "./Contact.module.css";
 // lucide-react kütüphanesinden telefon ve kullanıcı ikonları import edilebilir
 // import { Phone, User } from 'lucide-react'; // Varsayımsal ikonlar

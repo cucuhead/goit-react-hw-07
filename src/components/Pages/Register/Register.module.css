@@ -1,0 +1,14 @@
+/* src/pages/Register/Register.module.css */
+
+.container {
+  max-width: 600px; /* Formu ortalamak için */
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center; /* Başlığı ortalamak için */
+}
+
+.title {
+  font-size: 28px;
+  color: #3f51b5; /* Ana sayfa ve login sayfasıyla tutarlı renk */
+  margin-bottom: 20px;
+}

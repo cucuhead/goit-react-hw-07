@@ -1,0 +1,14 @@
+/* src/pages/Login/Login.module.css */
+
+.container {
+  max-width: 600px; /* Formu ortalamak için */
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center; /* Başlığı ortalamak için */
+}
+
+.title {
+  font-size: 28px;
+  color: #3f51b5;
+  margin-bottom: 20px;
+}

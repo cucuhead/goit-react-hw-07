@@ -1,14 +1,12 @@
 // src/components/ContactList/ContactList.jsx
+import { useSelector, useDispatch } from "react-redux";
 
-import { useSelector, useDispatch } from "react-redux"; // useDispatch ekledik (Contact bileşeninde sildiğimiz prop'u kullanabiliriz)
-
-// ⬅️ ÖNEMLİ DEĞİŞİKLİK: selectFilteredContacts seçicisini import ediyoruz.
-// selectContacts ve selectNameFilter artık burada kullanılmayacak.
+// ⬅️ DÜZELTME: Seçicileri 'slice' yerine 'selectors' dosyasından içe aktar!
 import {
   selectFilteredContacts,
-  selectLoading,
+  selectIsLoading,
   selectError,
-} from "../../redux/contactsSlice";
+} from "../../redux/contacts/selectors";
 
 import Contact from "../Contact/Contact";
 import css from "./ContactList.module.css";
@@ -25,7 +23,7 @@ const ContactList = () => {
 
   // loading ve error durumlarını App.jsx'te gösteriyor olsak da,
   // burada da durumu kontrol edebiliriz
-  const isLoading = useSelector(selectLoading);
+  const isLoading = useSelector(selectIsLoading);
   const isError = useSelector(selectError);
 
   // Contacts sayısını doğrudan store'dan alabiliriz

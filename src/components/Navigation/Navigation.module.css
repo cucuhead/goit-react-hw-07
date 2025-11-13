@@ -1,0 +1,24 @@
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.link {
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.link:hover {
+  color: #ffeb3b; /* Vurgu rengi */
+}
+
+.active {
+  color: #ffeb3b;
+  background-color: rgba(255, 255, 255, 0.1);
+}
